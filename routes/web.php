@@ -75,3 +75,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/asistencia/registrar', [App\Http\Controllers\AsistenciaController::class, 'create'])->name('asistencia.create');
 Route::post('/asistencia/registrar', [App\Http\Controllers\AsistenciaController::class, 'store'])->name('asistencia.store');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/asistencias/validar', [App\Http\Controllers\AsistenciaValidacionController::class, 'index'])->name('asistencias.validar.index');
+    Route::put('/asistencias/validar/{id}', [App\Http\Controllers\AsistenciaValidacionController::class, 'update'])->name('asistencias.validar.update');
+});
