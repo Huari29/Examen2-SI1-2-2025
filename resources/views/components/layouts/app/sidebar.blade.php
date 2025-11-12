@@ -30,7 +30,8 @@
                 <flux:navlist.group :heading="__('Asistencia Docente')" class="grid">
                     <flux:navlist.item icon="home" :href="route('asistencia.create')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Registrar asistencia') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('asistencias.validar.index')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Validar asistencia') }}</flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Resolver inconsistencias de asistencia') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('inconsistencias.docente')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Resolver inconsistencias de asistencia docente') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('inconsistencias.admin')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Resolver inconsistencias de asistencia admin') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

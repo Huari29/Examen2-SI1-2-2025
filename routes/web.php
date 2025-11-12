@@ -12,6 +12,7 @@ use App\Models\MateriaGrupo;
 use App\Models\Aula;
 use App\Models\Horario;
 use App\Http\Controllers\LogSistemaController;
+use App\Http\Controllers\InconsistenciaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -78,4 +79,16 @@ Route::post('/asistencia/registrar', [App\Http\Controllers\AsistenciaController:
 Route::middleware(['auth'])->group(function () {
     Route::get('/asistencias/validar', [App\Http\Controllers\AsistenciaValidacionController::class, 'index'])->name('asistencias.validar.index');
     Route::put('/asistencias/validar/{id}', [App\Http\Controllers\AsistenciaValidacionController::class, 'update'])->name('asistencias.validar.update');
+});
+
+// Docente
+Route::middleware(['auth'])->group(function () {
+    Route::get('/inconsistencias', [InconsistenciaController::class, 'indexDocente'])->name('inconsistencias.docente');
+    Route::post('/inconsistencias/{id}/justificar', [InconsistenciaController::class, 'justificar'])->name('inconsistencias.justificar');
+});
+
+// Administrador
+Route::middleware(['auth'/*, 'can:isAdmin'*/])->group(function () {
+    Route::get('/inconsistencias/admin', [InconsistenciaController::class, 'indexAdmin'])->name('inconsistencias.admin');
+    Route::post('/inconsistencias/{id}/resolver', [InconsistenciaController::class, 'resolver'])->name('inconsistencias.resolver');
 });
