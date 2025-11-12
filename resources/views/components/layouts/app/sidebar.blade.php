@@ -30,8 +30,8 @@
                 <flux:navlist.group :heading="__('Asistencia Docente')" class="grid">
                     <flux:navlist.item icon="home" :href="route('asistencia.create')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Registrar asistencia') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('asistencias.validar.index')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Validar asistencia') }}</flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('inconsistencias.docente')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Resolver inconsistencias de asistencia docente') }}</flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('inconsistencias.admin')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Resolver inconsistencias de asistencia admin') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('inconsistencias.docente')" :current="request()->routeIs('inconsistencias.docente')" wire:navigate><div class="flex items-center justify-between w-full"><span>{{ __('Resolver inconsistencias de asistencia docente') }}</span>@livewire('notificacion-inconsistencias')</div></flux:navlist.item>
+                    <flux:navlist.item :href="route('inconsistencias.admin')" :current="request()->routeIs('inconsistencias.admin')" wire:navigate><div class="flex items-center justify-between w-full"><span>{{ __('Resolver inconsistencias de asistencia admin') }}</span>@livewire('notificacion-inconsistencias')</div></flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
