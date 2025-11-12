@@ -36,12 +36,12 @@ Route::resource('aulas', AulaController::class);
 
 Route::post('/asignar-horario', [HorarioController::class, 'asignarHorario'])->name('detalle-horario.store');
 // Ruta GET para mostrar el formulario de asignar horario
-Route::get('/asignar-horario', function () {
+/*Route::get('/asignar-horario', function () {
     $materiaGrupos = MateriaGrupo::with('materia','docente')->get();
     $aulas = Aula::all();
     $horarios = Horario::all();
     return view('gestion-academica.asignar-horarios.show', compact('materiaGrupos','aulas','horarios'));
-})->name('detalle-horario.create');
+})->name('detalle-horario.create');*/
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
