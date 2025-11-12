@@ -10,7 +10,7 @@
                     <table class="border border-gray-400 w-full text-center">
                         <thead class="border border-gray-400 w-full text-center">
                             <tr>
-                                <td class="border border-gray-400 w-full text-center">{{__('Nombre')}}</td>
+                                <td class="border border-gray-100 w-full text-center">{{__('Nombre')}}</td>
                                 <td class="border border-gray-400 w-full text-center">{{__('Apellido')}}</td>
                                 <td class="border border-gray-400 w-full text-center">{{__('Curso')}}</td>
                                 <td class="border border-gray-400 w-full text-center">{{__('Turno')}}</td>
@@ -18,7 +18,7 @@
                         </thead>
                         <tbody class="border border-gray-400 w-full text-center">
                             <tr>
-                                <td class="border border-gray-400 w-full text-center">{{__('Cristian')}}</td>
+                                <td class="border border-gray-100 w-full text-center">{{__('Cristian')}}</td>
                                 <td class="border border-gray-400 w-full text-center">{{__('Huari')}}</td>
                                 <td class="border border-gray-400 w-full text-center">{{__('6 Semestre')}}</td>
                                 <td class="border border-gray-400 w-full text-center">{{__('mañana')}}</td>
