@@ -15,10 +15,18 @@ class AsistenciaController extends Controller
     public function create()
     {
         $usuario = Auth::user();
+        $now = Carbon::now();
+        $diaActual = ucfirst($now->locale('es')->dayName); // Ej: Lunes
+        $horaActual = $now->format('H:i');
 
-        // Solo mostrar materias del docente autenticado
+        // Materias del docente
         $materias = MateriaGrupo::with(['materia', 'grupo'])
             ->where('id_docente', $usuario->id_usuario)
+            ->whereHas('detallesHorario.horario', function ($query) use ($diaActual, $horaActual) {
+                $query->where('dia_semana', $diaActual)
+                      ->where('hora_inicio', '<=', $horaActual)
+                      ->where('hora_fin', '>=', $horaActual);
+            })
             ->get();
 
         return view('asistencia-docente.registrar-asistencias.register', compact('materias'));
