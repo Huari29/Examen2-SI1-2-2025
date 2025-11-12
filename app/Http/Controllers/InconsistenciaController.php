@@ -1,68 +1,52 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use Illuminate\Http\Request;
-use App\Models\Asistencia;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class InconsistenciaController extends Controller
+class MateriaGrupo extends Model
 {
-    // 🔹 Vista de inconsistencias (y faltas) para el docente
-    public function indexDocente()
+    use HasFactory;
+
+    protected $table = 'materia_grupo';
+    protected $primaryKey = 'id_mg';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id_materia',
+        'id_grupo',
+        'id_docente',
+        'gestion',
+        'activo',
+        'creado_en',
+    ];
+
+    // Relaciones
+    public function materia()
     {
-        $docenteId = Auth::user()->id_usuario;
-
-        $inconsistencias = Asistencia::with(['detalleHorario.materiaGrupo.materia', 'detalleHorario.materiaGrupo.grupo'])
-            ->whereIn('estado', ['Inconsistente', 'Falta'])
-            ->whereHas('detalleHorario.materiaGrupo', fn($q) => $q->where('id_docente', $docenteId))
-            ->orderByDesc('fecha')
-            ->get();
-
-        return view('asistencia-docente.resolver-inconsistencias-de-asistencias.docente', compact('inconsistencias'));
+        return $this->belongsTo(Materia::class, 'id_materia', 'id_materia');
     }
 
-    // 🔹 Justificación del docente (si tuvo falta o inconsistencia)
-    public function justificar(Request $request, $id)
+    public function grupo()
     {
-        $request->validate(['observacion' => 'required|string|max:255']);
-
-        $asistencia = Asistencia::findOrFail($id);
-        $asistencia->update([
-            'observacion' => $request->observacion,
-            'estado' => 'Resuelta',
-        ]);
-
-        return back()->with('success', '✅ Justificación enviada correctamente.');
+        return $this->belongsTo(Grupo::class, 'id_grupo', 'id_grupo');
     }
 
-    // 🔹 Vista de inconsistencias (y faltas) para el administrador
-    public function indexAdmin()
+    public function docente()
     {
-        $inconsistencias = Asistencia::with(['detalleHorario.materiaGrupo.docente', 'detalleHorario.aula', 'detalleHorario.horario'])
-            ->whereIn('estado', ['Inconsistente', 'Resuelta', 'Falta'])
-            ->orderByDesc('fecha')
-            ->get();
-
-        return view('asistencia-docente.validar-inconsistencias-de-asistencias.administrador', compact('inconsistencias'));
+        return $this->belongsTo(Usuario::class, 'id_docente', 'id_usuario');
     }
 
-    // 🔹 Resolver inconsistencia o falta (admin)
-    public function resolver(Request $request, $id)
+    // Accesor opcional para mostrar activo como texto
+    public function getActivoTextoAttribute()
     {
-        $request->validate(['accion' => 'required|in:aceptar,rechazar']);
-
-        $asistencia = Asistencia::findOrFail($id);
-
-        if ($request->accion === 'aceptar') {
-            $asistencia->estado = 'Validada';
-        } else {
-            $asistencia->estado = 'Rechazada';
-            $asistencia->observacion = $request->observacion ?? 'Falta no justificada.';
-        }
-
-        $asistencia->save();
-
-        return back()->with('success', '✅ Registro ' . strtolower($asistencia->estado) . ' correctamente.');
+        return $this->activo ? 'Sí' : 'No';
     }
+    public function detallesHorario()
+    {
+        return $this->hasMany(DetalleHorario::class, 'id_mg', 'id_mg');
+    }
+
 }
+

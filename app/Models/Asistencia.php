@@ -24,7 +24,7 @@ class Asistencia extends Model
     ];
 
     // 🔹 Relación con detalle_horario
-    public function detalle()
+    public function detalleHorario()
     {
         return $this->belongsTo(DetalleHorario::class, 'id_detalle', 'id_detalle');
     }
@@ -52,4 +52,5 @@ class Asistencia extends Model
     {
         return $this->detalle?->horario;
     }
+    
 }
