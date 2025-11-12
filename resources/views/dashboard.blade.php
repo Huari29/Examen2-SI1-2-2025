@@ -10,18 +10,18 @@
                     <table class="border border-gray-400 w-full text-center">
                         <thead class="border border-gray-400 w-full text-center">
                             <tr>
-                                <td>{{__('Nombre')}}</td>
-                                <td>{{__('Apellido')}}</td>
-                                <td>{{__('Curso')}}</td>
-                                <td>{{__('Turno')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('Nombre')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('Apellido')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('Curso')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('Turno')}}</td>
                             </tr>
                         </thead>
                         <tbody class="border border-gray-400 w-full text-center">
                             <tr>
-                                <td>{{__('Cristian')}}</td>
-                                <td>{{__('Huari')}}</td>
-                                <td>{{__('6 Semestre')}}</td>
-                                <td>{{__('mañana')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('Cristian')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('Huari')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('6 Semestre')}}</td>
+                                <td class="border border-gray-400 w-full text-center">{{__('mañana')}}</td>
                             </tr>
                         </tbody>
                     </table>
