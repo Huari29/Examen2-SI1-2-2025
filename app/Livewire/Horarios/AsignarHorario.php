@@ -75,6 +75,11 @@ class AsignarHorario extends Component
 
     public function render()
     {
-        return view('gestion-academica.asignar-horario.show');
+        return view('gestion-academica.asignar-horario.show', [
+        'materias' => $this->materias,
+        'aulas' => $this->aulas,
+        'docentes' => $this->docentes,
+    ]);
+
     }
 }
