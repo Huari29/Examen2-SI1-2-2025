@@ -66,9 +66,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
-
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/horarios/asignar', AsignarHorario::class)
-        ->name('horarios.asignar');
+    Route::get('/horarios/asignar', AsignarHorario::class)->name('detalle-horario.create');
 });
+
