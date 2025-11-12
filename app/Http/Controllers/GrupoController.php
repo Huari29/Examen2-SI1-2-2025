@@ -13,7 +13,7 @@ class GrupoController extends Controller
     public function index()
     {
         $grupos = Grupo::orderBy('id_grupo', 'desc')->get();
-        return view('grupos.index', compact('grupos'));
+        return view('gestion-academica.grupos.index', compact('grupos'));
     }
 
     /**
@@ -21,7 +21,7 @@ class GrupoController extends Controller
      */
     public function create()
     {
-        return view('grupos.create');
+        return view('gestion-academica.grupos.create');
     }
 
     /**
@@ -49,7 +49,7 @@ class GrupoController extends Controller
      */
     public function edit(Grupo $grupo)
     {
-        return view('grupos.edit', compact('grupo'));
+        return view('gestion-academica.grupos.edit', compact('grupo'));
     }
 
     /**

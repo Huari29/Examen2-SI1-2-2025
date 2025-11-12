@@ -39,7 +39,7 @@ Route::get('/asignar-horario', function () {
     $materiaGrupos = MateriaGrupo::with('materia','docente')->get();
     $aulas = Aula::all();
     $horarios = Horario::all();
-    return view('asignar-horarios.show', compact('materiaGrupos','aulas','horarios'));
+    return view('gestion-academica.asignar-horarios.show', compact('materiaGrupos','aulas','horarios'));
 })->name('detalle-horario.create');
 
 Route::view('dashboard', 'dashboard')
