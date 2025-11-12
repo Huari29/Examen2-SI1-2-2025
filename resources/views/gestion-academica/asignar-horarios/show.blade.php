@@ -75,7 +75,7 @@
                                     class="form-checkbox text-blue-500 rounded-full focus:ring-blue-500 focus:ring-2"
                                 >
                                 <span class="text-neutral-100">{{ $dia }}</span>
-                            </label>
+                            </label><br>
                         @endforeach
                     </div>
                     <p class="text-sm text-neutral-400 mt-1">Puedes seleccionar varios días.</p>
