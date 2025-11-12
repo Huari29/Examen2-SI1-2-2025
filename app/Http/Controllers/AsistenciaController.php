@@ -33,39 +33,52 @@ class AsistenciaController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'id_mg' => 'required|exists:materia_grupo,id_mg',
-            'metodo_registro' => 'required|string',
-            'observacion' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'id_mg' => 'required|exists:materia_grupo,id_mg',
+        'metodo_registro' => 'required|string',
+        'observacion' => 'nullable|string',
+    ]);
 
-        $now = Carbon::now();
-        $diaActual = $now->locale('es')->dayName; // Ej: lunes
-        $horaActual = $now->format('H:i');
+    $now = Carbon::now();
+    $diaActual = ucfirst($now->locale('es')->dayName);
+    $horaActual = $now->format('H:i');
 
-        // Buscar si el docente tiene clase en este momento
-        $detalle = DetalleHorario::where('id_mg', $request->id_mg)
-            ->where('dia_semana', ucfirst($diaActual))
-            ->whereHas('horario', function ($query) use ($horaActual) {
-                $query->where('hora_inicio', '<=', $horaActual)
-                      ->where('hora_fin', '>=', $horaActual);
-            })
-            ->first();
+    // Buscar si el docente tiene clase en este momento exacto
+    $detalle = DetalleHorario::where('id_mg', $request->id_mg)
+        ->where('dia_semana', $diaActual)
+        ->whereHas('horario', function ($query) use ($horaActual) {
+            $query->where('hora_inicio', '<=', $horaActual)
+                  ->where('hora_fin', '>=', $horaActual);
+        })
+        ->first();
 
-        if (!$detalle) {
-            return back()->with('error', '❌ No tienes una clase asignada en este momento.');
-        }
-
-        Asistencia::create([
-            'creado_en' => $now,
-            'fecha' => $now->toDateString(),
-            'metodo_registro' => $request->metodo_registro,
-            'observacion' => $request->observacion,
-            'registrada_por' => Auth::id(),
-            'id_detalle' => $detalle->id_detalle,
-        ]);
-
-        return back()->with('success', '✅ Asistencia registrada correctamente.');
+    // 🔹 Si no tiene clase en este momento, no puede registrar asistencia
+    if (!$detalle) {
+        return back()->with('error', '❌ No puedes registrar asistencia fuera de tu horario asignado.');
     }
+
+    // Verificar si ya registró asistencia en este detalle hoy
+    $asistenciaExistente = Asistencia::where('id_detalle', $detalle->id_detalle)
+        ->whereDate('fecha', $now->toDateString())
+        ->first();
+
+    if ($asistenciaExistente) {
+        return back()->with('error', '⚠️ Ya registraste asistencia para este horario.');
+    }
+
+    // Crear asistencia
+    Asistencia::create([
+        'creado_en' => $now,
+        'fecha' => $now->toDateString(),
+        'estado' => 'Pendiente',
+        'metodo_registro' => $request->metodo_registro,
+        'observacion' => $request->observacion,
+        'registrada_por' => Auth::id(),
+        'id_detalle' => $detalle->id_detalle,
+    ]);
+
+    return back()->with('success', '✅ Asistencia registrada correctamente.');
+}
+
 }
