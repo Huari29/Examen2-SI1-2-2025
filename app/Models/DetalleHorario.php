@@ -14,29 +14,36 @@ class DetalleHorario extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'creado_en',
-        'dia_semana',
-        'estado',
-        'gestion',
-        'hora_inicio',
-        'hora_fin',
-        'id_docente',
+        'id_mg',
         'id_aula',
-        'id_materia_grupo',
+        'id_horario',
+        'dia_semana',
+        'gestion',
+        'estado',
+        'creado_en',
     ];
 
-    public function docente()
-    {
-        return $this->belongsTo(Usuario::class, 'id_docente');
-    }
-
+    // 🔹 Relación con aula
     public function aula()
     {
-        return $this->belongsTo(Aula::class, 'id_aula');
+        return $this->belongsTo(Aula::class, 'id_aula', 'id_aula');
     }
 
+    // 🔹 Relación con materia_grupo
     public function materiaGrupo()
     {
-        return $this->belongsTo(MateriaGrupo::class, 'id_materia_grupo');
+        return $this->belongsTo(MateriaGrupo::class, 'id_mg', 'id_mg');
+    }
+
+    // 🔹 Relación con horario
+    public function horario()
+    {
+        return $this->belongsTo(Horario::class, 'id_horario', 'id_horario');
+    }
+
+    // 🔹 Acceso indirecto al docente a través de materia_grupo
+    public function docente()
+    {
+        return $this->materiaGrupo ? $this->materiaGrupo->docente : null;
     }
 }
