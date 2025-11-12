@@ -44,7 +44,7 @@ class InconsistenciaController extends Controller
             ->orderByDesc('fecha')
             ->get();
 
-        return view('asistencia-docente.validar-inconsistencias-de-asistencias.administrador', compact('inconsistencias'));
+        return view('asistencia-docente.resolver-inconsistencias-de-asistencias.administrador', compact('inconsistencias'));
     }
 
     // 🔹 Resolver inconsistencia o falta (admin)
