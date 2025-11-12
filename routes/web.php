@@ -12,7 +12,6 @@ use App\Models\MateriaGrupo;
 use App\Models\Aula;
 use App\Models\Horario;
 use App\Http\Controllers\LogSistemaController;
-use App\Livewire\Horarios\AsignarHorario;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,7 +65,11 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
+
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/horarios/asignar', AsignarHorario::class)->name('detalle-horario.create');
+    Route::get('/asignar-horario', [HorarioController::class, 'create'])->name('detalle-horario.create');
+    Route::post('/asignar-horario', [HorarioController::class, 'store'])->name('detalle-horario.store');
 });
+
 
