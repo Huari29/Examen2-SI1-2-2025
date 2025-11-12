@@ -43,5 +43,10 @@ class MateriaGrupo extends Model
     {
         return $this->activo ? 'Sí' : 'No';
     }
+    public function detallesHorario()
+    {
+        return $this->hasMany(DetalleHorario::class, 'id_mg', 'id_mg');
+    }
+
 }
 
