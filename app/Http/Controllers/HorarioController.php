@@ -19,7 +19,7 @@ class HorarioController extends Controller
         $aulas = Aula::where('activo', true)->get();
         $horarios = Horario::all(); // 👈 los bloques de horarios predefinidos
 
-        return view('gestion-academica.asignar-horario.show', compact(
+        return view('gestion-academica.asignar-horarios.show', compact(
             'materias', 'grupos', 'docentes', 'aulas', 'horarios'
         ));
     }
