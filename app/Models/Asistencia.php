@@ -18,20 +18,38 @@ class Asistencia extends Model
         'fecha',
         'estado',
         'metodo_registro',
-        'registrado_por',
+        'registrada_por',
         'observacion',
         'creado_en',
     ];
 
-    // Relación con DetalleHorario
-    public function detalleHorario()
+    // 🔹 Relación con detalle_horario
+    public function detalle()
     {
         return $this->belongsTo(DetalleHorario::class, 'id_detalle', 'id_detalle');
     }
 
-    // Relación con Usuario que registró la asistencia
-    public function registradoPor()
+    // 🔹 Relación con el usuario que registró la asistencia
+    public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'registrado_por', 'id_usuario');
+        return $this->belongsTo(Usuario::class, 'registrada_por', 'id_usuario');
+    }
+
+    // 🔹 Acceso rápido al docente desde el detalle
+    public function docente()
+    {
+        return $this->detalle?->materiaGrupo?->docente;
+    }
+
+    // 🔹 Acceso rápido al aula
+    public function aula()
+    {
+        return $this->detalle?->aula;
+    }
+
+    // 🔹 Acceso rápido al horario
+    public function horario()
+    {
+        return $this->detalle?->horario;
     }
 }
