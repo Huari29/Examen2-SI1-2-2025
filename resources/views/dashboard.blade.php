@@ -6,7 +6,26 @@
             </div>
             <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
                 <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                <Div>Hola</Div>
+                <Div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>{{__('Nombre')}}</td>
+                                <td>{{__('Apellido')}}</td>
+                                <td>{{__('Curso')}}</td>
+                                <td>{{__('Turno')}}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{__('Cristian')}}</td>
+                                <td>{{__('Huari')}}</td>
+                                <td>{{__('6 Semestre')}}</td>
+                                <td>{{__('mañana')}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </Div>
             </div>
             <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
                 <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
