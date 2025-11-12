@@ -46,8 +46,6 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('revisar reportes de asistencia y carga horaria') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Generar informes finales de gestion') }}</flux:navlist.item>
                 </flux:navlist.group>
-                </flux:navlist.group>
-                </flux:navlist.group>
             </flux:navlist>
 
             <flux:navlist variant="outline">
@@ -66,11 +64,11 @@
             <flux:spacer />
 
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                <flux:navlist.item icon="folder-git-2" href="https://github.com/Huari29/Examen2-SI1-2-2025.git" target="_blank">
                 {{ __('Repository') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
+                <flux:navlist.item icon="book-open-text" href="https://docs.google.com/document/d/1OQb3urZriGdEFcljpQwxsg5vZ9fqAzib/edit?usp=sharing&ouid=107539514226809651841&rtpof=true&sd=true" target="_blank">
                 {{ __('Documentation') }}
                 </flux:navlist.item>
             </flux:navlist>
