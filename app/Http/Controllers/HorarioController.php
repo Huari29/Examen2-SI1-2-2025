@@ -34,38 +34,34 @@ public function store(Request $request)
         'gestion' => 'required|string',
     ]);
 
+    // 🔹 Buscar o crear la relación materia-grupo-docente
+    $materiaGrupo = \App\Models\MateriaGrupo::firstOrCreate([
+        'id_materia' => $request->id_materia,
+        'id_grupo' => $request->id_grupo,
+        'id_docente' => $request->id_docente,
+        'gestion' => $request->gestion,
+    ], [
+        'activo' => true,
+        'creado_en' => now(),
+    ]);
+
+    // 🔹 Crear un registro de horario por cada día seleccionado
     foreach ($request->dias as $dia) {
-        $conflicto = \App\Models\DetalleHorario::where('dia_semana', $dia)
-            ->where(function ($q) use ($request) {
-                $q->where('id_aula', $request->id_aula)
-                  ->orWhere('id_docente', $request->id_docente);
-            })
-            ->where(function ($q) use ($request) {
-                $q->whereBetween('hora_inicio', [$request->hora_inicio, $request->hora_fin])
-                  ->orWhereBetween('hora_fin', [$request->hora_inicio, $request->hora_fin]);
-            })
-            ->exists();
-
-        if ($conflicto) {
-            return back()->with('error', "⚠️ Conflicto detectado en $dia: aula o docente ocupado.")->withInput();
-        }
-
         \App\Models\DetalleHorario::create([
+            'creado_en' => now(),
             'dia_semana' => $dia,
             'estado' => 'Activo',
             'gestion' => $request->gestion,
             'hora_inicio' => $request->hora_inicio,
             'hora_fin' => $request->hora_fin,
-            'id_docente' => $request->id_docente,
             'id_aula' => $request->id_aula,
-            'id_materia_grupo' => \App\Models\MateriaGrupo::where('id_materia',$request->id_materia)
-                                ->where('id_grupo',$request->id_grupo)
-                                ->value('id_mg'),
-            'creado_en' => now(),
+            'id_mg' => $materiaGrupo->id_mg, // 🔗 clave foránea
         ]);
     }
 
-    return redirect()->route('detalle-horario.create')->with('success', '✅ Horario asignado correctamente.');
+    return redirect()
+        ->route('detalle-horario.create')
+        ->with('success', '✅ Horarios asignados correctamente.');
 }
 
 }
