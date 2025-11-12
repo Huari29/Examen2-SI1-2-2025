@@ -18,7 +18,7 @@ class HorarioController extends Controller
     $docentes = \App\Models\Usuario::whereHas('rol', fn($q) => $q->where('nombre', 'Docente'))->get();
     $aulas = \App\Models\Aula::where('activo', true)->get();
 
-    return view('gestion-academica.asignar-horario.show', compact('materias','grupos','docentes','aulas'));
+    return view('gestion-academica.asignar-horarios.show', compact('materias','grupos','docentes','aulas'));
 }
 
 public function store(Request $request)
