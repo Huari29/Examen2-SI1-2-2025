@@ -18,15 +18,24 @@
             <form action="{{ route('detalle-horario.store') }}" method="POST" class="space-y-4">
                 @csrf
 
-                {{-- Materia - Grupo --}}
+                {{-- Materia --}}
                 <div>
-                    <label class="block font-medium text-neutral-100">Materia - Grupo</label>
-                    <select name="id_materia_grupo" class="w-full border rounded-lg px-3 py-2 bg-neutral-900 text-neutral-100" required>
-                        <option value="">Seleccione materia y grupo</option>
-                        @foreach($materiaGrupos as $mg)
-                            <option value="{{ $mg->id_mg }}">
-                                {{ $mg->materia->nombre }} - {{ $mg->grupo->codigo }} ({{ $mg->docente->nombre ?? 'Sin docente' }})
-                            </option>
+                    <label class="block font-medium text-neutral-100">Materia</label>
+                    <select name="id_materia" class="w-full border rounded-lg px-3 py-2 bg-neutral-900 text-neutral-100" required>
+                        <option value="">Seleccione materia</option>
+                        @foreach($materias as $materia)
+                            <option value="{{ $materia->id_materia }}">{{ $materia->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Grupo --}}
+                <div>
+                    <label class="block font-medium text-neutral-100">Grupo</label>
+                    <select name="id_grupo" class="w-full border rounded-lg px-3 py-2 bg-neutral-900 text-neutral-100" required>
+                        <option value="">Seleccione grupo</option>
+                        @foreach($grupos as $grupo)
+                            <option value="{{ $grupo->id_grupo }}">{{ $grupo->codigo }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -37,7 +46,7 @@
                     <select name="id_docente" class="w-full border rounded-lg px-3 py-2 bg-neutral-900 text-neutral-100" required>
                         <option value="">Seleccione docente</option>
                         @foreach($docentes as $docente)
-                            <option value="{{ $docente->id }}">{{ $docente->nombre }}</option>
+                            <option value="{{ $docente->id_usuario }}">{{ $docente->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -53,15 +62,23 @@
                     </select>
                 </div>
 
-                {{-- Día --}}
+                {{-- Días --}}
                 <div>
-                    <label class="block font-medium text-neutral-100">Día</label>
-                    <select name="dia_semana" class="w-full border rounded-lg px-3 py-2 bg-neutral-900 text-neutral-100" required>
-                        <option value="">Seleccione día</option>
+                    <label class="block font-medium text-neutral-100 mb-2">Días</label>
+                    <div class="flex flex-wrap gap-3">
                         @foreach(['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] as $dia)
-                            <option value="{{ $dia }}">{{ $dia }}</option>
+                            <label class="flex items-center space-x-2 cursor-pointer bg-neutral-800 px-4 py-2 rounded-full hover:bg-neutral-700 transition">
+                                <input 
+                                    type="checkbox" 
+                                    name="dias[]" 
+                                    value="{{ $dia }}" 
+                                    class="form-checkbox text-blue-500 rounded-full focus:ring-blue-500 focus:ring-2"
+                                >
+                                <span class="text-neutral-100">{{ $dia }}</span>
+                            </label>
                         @endforeach
-                    </select>
+                    </div>
+                    <p class="text-sm text-neutral-400 mt-1">Puedes seleccionar varios días.</p>
                 </div>
 
                 {{-- Horas --}}
@@ -96,4 +113,3 @@
         </div>
     </flux:main>
 </x-layouts.app.sidebar>
-

@@ -12,27 +12,30 @@ use Carbon\Carbon;
 class HorarioController extends Controller
 {
     public function create()
-    {
-        $materiaGrupos = MateriaGrupo::with('materia', 'grupo', 'docente')->get();
-        $aulas = Aula::where('activo', true)->get();
-        $docentes = Usuario::whereHas('rol', fn($q) => $q->where('nombre', 'Docente'))->get();
+{
+    $materias = \App\Models\Materia::all();
+    $grupos = \App\Models\Grupo::all();
+    $docentes = \App\Models\Usuario::whereHas('rol', fn($q) => $q->where('nombre', 'Docente'))->get();
+    $aulas = \App\Models\Aula::where('activo', true)->get();
 
-        return view('gestion-academica.asignar-horarios.show', compact('materiaGrupos', 'aulas', 'docentes'));
-    }
+    return view('gestion-academica.asignar-horario.show', compact('materias','grupos','docentes','aulas'));
+}
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_materia_grupo' => 'required|exists:materia_grupo,id_mg',
-            'id_docente' => 'required|exists:usuario,id',
-            'id_aula' => 'required|exists:aula,id_aula',
-            'dia_semana' => 'required|string',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required|after:hora_inicio',
-            'gestion' => 'required|string',
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'id_materia' => 'required|exists:materia,id_materia',
+        'id_grupo' => 'required|exists:grupo,id_grupo',
+        'id_docente' => 'required|exists:usuario,id_usuario',
+        'id_aula' => 'required|exists:aula,id_aula',
+        'dias' => 'required|array|min:1',
+        'hora_inicio' => 'required',
+        'hora_fin' => 'required|after:hora_inicio',
+        'gestion' => 'required|string',
+    ]);
 
-        $conflicto = DetalleHorario::where('dia_semana', $request->dia_semana)
+    foreach ($request->dias as $dia) {
+        $conflicto = \App\Models\DetalleHorario::where('dia_semana', $dia)
             ->where(function ($q) use ($request) {
                 $q->where('id_aula', $request->id_aula)
                   ->orWhere('id_docente', $request->id_docente);
@@ -44,21 +47,25 @@ class HorarioController extends Controller
             ->exists();
 
         if ($conflicto) {
-            return back()->with('error', '⚠️ Conflicto detectado: aula o docente ocupado.')->withInput();
+            return back()->with('error', "⚠️ Conflicto detectado en $dia: aula o docente ocupado.")->withInput();
         }
 
-        DetalleHorario::create([
-            'creado_en' => Carbon::now(),
-            'dia_semana' => $request->dia_semana,
+        \App\Models\DetalleHorario::create([
+            'dia_semana' => $dia,
             'estado' => 'Activo',
             'gestion' => $request->gestion,
             'hora_inicio' => $request->hora_inicio,
             'hora_fin' => $request->hora_fin,
             'id_docente' => $request->id_docente,
             'id_aula' => $request->id_aula,
-            'id_materia_grupo' => $request->id_materia_grupo,
+            'id_materia_grupo' => \App\Models\MateriaGrupo::where('id_materia',$request->id_materia)
+                                ->where('id_grupo',$request->id_grupo)
+                                ->value('id_mg'),
+            'creado_en' => now(),
         ]);
-
-        return redirect()->route('detalle-horario.create')->with('success', '✅ Horario asignado correctamente.');
     }
+
+    return redirect()->route('detalle-horario.create')->with('success', '✅ Horario asignado correctamente.');
+}
+
 }
