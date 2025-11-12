@@ -8,7 +8,7 @@
                 <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
                 <Div>
                     <table class="border border-gray-400 w-full text-center">
-                        <thead>
+                        <thead class="border border-gray-400 w-full text-center">
                             <tr>
                                 <td>{{__('Nombre')}}</td>
                                 <td>{{__('Apellido')}}</td>
@@ -16,7 +16,7 @@
                                 <td>{{__('Turno')}}</td>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="border border-gray-400 w-full text-center">
                             <tr>
                                 <td>{{__('Cristian')}}</td>
                                 <td>{{__('Huari')}}</td>
