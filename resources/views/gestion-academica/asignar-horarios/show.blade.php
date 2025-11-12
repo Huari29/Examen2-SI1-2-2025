@@ -35,7 +35,7 @@
                     <select name="id_grupo" class="w-full border rounded-lg px-3 py-2 bg-neutral-900 text-neutral-100" required>
                         <option value="">Seleccione grupo</option>
                         @foreach($grupos as $grupo)
-                            <option value="{{ $grupo->id_grupo }}">{{ $grupo->codigo }}</option>
+                            <option value="{{ $grupo->id_grupo }}">{{ $grupo->nombre." - ".$grupo->turno}}</option>
                         @endforeach
                     </select>
                 </div>
