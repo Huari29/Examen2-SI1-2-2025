@@ -72,4 +72,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/asignar-horario', [HorarioController::class, 'store'])->name('detalle-horario.store');
 });
 
+Route::get('/asistencia/registrar', [App\Http\Controllers\AsistenciaController::class, 'create'])->name('asistencia.create');
+Route::post('/asistencia/registrar', [App\Http\Controllers\AsistenciaController::class, 'store'])->name('asistencia.store');
 
