@@ -37,7 +37,7 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Usuario Roles')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Registrar docentes y usuarios') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('usuarios.index')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Registrar docentes y usuarios') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
