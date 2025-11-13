@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
+//use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MateriaController;
@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('user-password.edit');
     Volt::route('settings/appearance', 'settings.appearance')->name('appearance.edit');
 
-    Volt::route('settings/two-factor', 'settings.two-factor')
+    /*Volt::route('settings/two-factor', 'settings.two-factor')
         ->middleware(
             when(
                 Features::canManageTwoFactorAuthentication()
@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
                 [],
             ),
         )
-        ->name('two-factor.show');
+        ->name('two-factor.show');*/
 });
 
 
