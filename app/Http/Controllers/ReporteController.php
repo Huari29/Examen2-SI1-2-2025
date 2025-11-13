@@ -14,7 +14,7 @@ class ReporteController extends Controller
     public function index()
     {
         $docentes = Usuario::whereHas('rol', fn($q) => $q->where('nombre', 'Docente'))->get();
-        return view('reportes.index', compact('docentes'));
+        return view('reportes.generar-reportes-academicos-y-administrativos.index', compact('docentes'));
     }
 
     // 🔹 Generar reporte en pantalla o exportable
@@ -42,6 +42,6 @@ class ReporteController extends Controller
             return $reporteService->exportarPDF($resultado, $request->tipo);
         }
 
-        return view('reportes.resultado', compact('resultado'));
+        return view('reportes.generar-reportes-academicos-y-administrativos.resultado', compact('resultado'));
     }
 }
