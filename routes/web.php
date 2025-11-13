@@ -14,6 +14,7 @@ use App\Models\Horario;
 use App\Http\Controllers\LogSistemaController;
 use App\Http\Controllers\InconsistenciaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ReporteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -97,3 +98,6 @@ Route::middleware(['auth'/*, 'can:isAdmin'*/])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('usuarios', UsuarioController::class);
 });
+
+Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+Route::post('/reportes/generar', [ReporteController::class, 'generar'])->name('reportes.generar');
