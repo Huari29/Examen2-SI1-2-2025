@@ -43,7 +43,7 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Reportes')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Generar reportes academicos y administrativos') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('reportes.index')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Generar reportes academicos y administrativos') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('revisar reportes de asistencia y carga horaria') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Generar informes finales de gestion') }}</flux:navlist.item>
                 </flux:navlist.group>
