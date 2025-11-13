@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asistencia;
-use App\Models\Horario;
-use App\Models\Usuario;
 use Illuminate\Http\Request;
+use App\Models\Usuario;
 use App\Services\ReporteService;
 
 class ReporteController extends Controller
@@ -38,10 +36,20 @@ class ReporteController extends Controller
             return back()->with('error', '⚠️ No se encontraron registros con los filtros seleccionados.');
         }
 
+        // ✅ Exportar según el formato solicitado
         if ($request->has('exportar_pdf')) {
             return $reporteService->exportarPDF($resultado, $request->tipo);
         }
 
+        if ($request->has('exportar_excel')) {
+            return $reporteService->exportarExcel($resultado, $request->tipo);
+        }
+
+        if ($request->has('exportar_word')) {
+            return $reporteService->exportarWord($resultado, $request->tipo);
+        }
+
+        // ✅ Mostrar en pantalla si no se pidió exportar
         return view('reportes.generar-reportes-academicos-y-administrativos.resultado', compact('resultado'));
     }
 }
