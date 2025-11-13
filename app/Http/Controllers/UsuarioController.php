@@ -6,7 +6,6 @@ use App\Models\Usuario;
 use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
 class UsuarioController extends Controller
 {
     // 🔹 Listar usuarios
@@ -54,24 +53,33 @@ class UsuarioController extends Controller
     }
 
     // 🔹 Actualizar usuario
-    public function update(Request $request, $id)
-    {
-        $usuario = Usuario::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $usuario = Usuario::findOrFail($id);
 
-        $request->validate([
-            'nombre' => 'required|string|max:150',
-            'correo' => 'required|email|unique:usuario,correo,' . $id . ',id_usuario',
-            'id_rol' => 'required|exists:rol,id_rol',
-        ]);
+    $request->validate([
+        'nombre' => 'required|string|max:150',
+        'correo' => 'required|email|unique:usuario,correo,' . $id . ',id_usuario',
+        'id_rol' => 'required|exists:rol,id_rol',
+        'contrasenia' => 'nullable|min:6', // 🔹 opcional
+    ]);
 
-        $usuario->update([
-            'nombre' => $request->nombre,
-            'correo' => $request->correo,
-            'id_rol' => $request->id_rol,
-        ]);
+    $data = [
+        'nombre' => $request->nombre,
+        'correo' => $request->correo,
+        'id_rol' => $request->id_rol,
+        'activo' => $request->activo,
+    ];
 
-        return redirect()->route('usuarios.index')->with('success', '✅ Usuario actualizado correctamente.');
+    // 🔹 Solo actualiza contraseña si el campo no está vacío
+    if (!empty($request->contrasenia)) {
+        $data['contrasenia'] = Hash::make($request->contrasenia);
     }
+
+    $usuario->update($data);
+
+    return redirect()->route('usuarios.index')->with('success', '✅ Usuario actualizado correctamente.');
+}
 
     // 🔹 Eliminar usuario
     public function destroy($id)
