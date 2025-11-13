@@ -13,6 +13,7 @@ use App\Models\Aula;
 use App\Models\Horario;
 use App\Http\Controllers\LogSistemaController;
 use App\Http\Controllers\InconsistenciaController;
+use App\Http\Controllers\UsuarioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -91,4 +92,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'/*, 'can:isAdmin'*/])->group(function () {
     Route::get('/inconsistencias/admin', [InconsistenciaController::class, 'indexAdmin'])->name('inconsistencias.admin');
     Route::post('/inconsistencias/{id}/resolver', [InconsistenciaController::class, 'resolver'])->name('inconsistencias.resolver');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('usuarios', UsuarioController::class);
 });
